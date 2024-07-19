@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>display</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <button id="back" onclick="goBack()">&leftarrow;</button>
+        <h4>Your Notes</h4>
+        <div class="c_dis"></div>
+    </header>
+    <div class="content" id="content">
+        <!-- Notes will be displayed here -->
+    </div>
+    <script src="js/theme.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contentDiv = document.getElementById('content');
+            const noteCount = localStorage.getItem('note_count');
+
+            if (noteCount) {
+                for (let i = 1; i <= noteCount; i++) {
+                    const noteKey = `note${i}`;
+                    const note = JSON.parse(localStorage.getItem(noteKey));
+
+                    if (note) {
+                        const noteElement = document.createElement('div');
+                        noteElement.classList.add('note');
+
+                        const noteTitle = document.createElement('h2');
+                        noteTitle.textContent = note.title;
+
+                        // const noteContent = document.createElement('pre'); // Use <pre> to preserve formatting
+                        // noteContent.textContent = note.content;
+
+                        const copyButton = document.createElement('button');
+                        copyButton.textContent = 'Copy';
+                        copyButton.addEventListener('click', function() {
+                            copyToClipboard(note);
+                        });
+
+                        noteElement.appendChild(noteTitle);
+                        // noteElement.appendChild(noteContent);
+                        noteElement.appendChild(copyButton);
+                        contentDiv.appendChild(noteElement);
+                    }
+                }
+            } else {
+                contentDiv.textContent = 'No notes found.';
+            }
+        });
+
+        function copyToClipboard(note) {
+            const encodedNote = btoa(JSON.stringify(note)); // Encode note using Base64
+            const textarea = document.createElement('textarea');
+            textarea.value = encodedNote;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Encoded note copied to clipboard');
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+                .show-more-option {
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .more-options {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .more-options button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .more-options button:hover {
+            background-color: #f1f1f1;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Jay Shree Krishna</h2>
+        <div class="show-more-option" id="showMoreOptions">⋮</div>
+        <div class="more-options" id="moreOptions">
+            <!-- <button onclick="showOptions()">Show Options</button> -->
+             <button id="add_newby">Import</button>
+             <button id="call_display">List</button>
+            <!-- Add more options here if needed -->
+        </div>
+    </header>
+    <div class="box" id="box">
+        <div class="list-item" data-note-key="counter" id="counter"><p class="heading">Counter</p></div>
+        <!-- List items will be dynamically added here -->
+    </div>
+    <div>
+        <button class="f_btn" id="addbtn">+</button>
+    </div>
+    <script src="js/theme.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const showMoreOptions = document.getElementById('showMoreOptions');
+            const moreOptions = document.getElementById('moreOptions');
+            const addBtn = document.getElementById("addbtn");
+            const call_display = document.getElementById("call_display");
+            const add_newby = document.getElementById("add_newby");
+            const counterBtn = document.getElementById("counter");
+            const box = document.getElementById('box');
+            const noteCount = localStorage.getItem('note_count');
+
+            showMoreOptions.addEventListener('click', () => {
+                moreOptions.style.display = moreOptions.style.display === 'none' || moreOptions.style.display === '' ? 'block' : 'none';
+            });
+
+            call_display.addEventListener("click", () => {
+                window.location.href = "display.html";
+            });
+            add_newby.addEventListener("click", () => {
+                window.location.href = "decode.html";
+            });
+
+            addBtn.addEventListener("click", () => {
+                window.location.href = "add_content.html";
+            });
+
+            counterBtn.addEventListener("click", () => {
+                window.location.href = "counter.html";
+            });
+
+            if (noteCount) {
+                for (let i = 1; i <= noteCount; i++) {
+                    const noteKey = `note${i}`;
+                    const note = JSON.parse(localStorage.getItem(noteKey));
+
+                    if (note) {
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('list-item');
+                        listItem.dataset.noteKey = noteKey; // Store note key as dataset
+
+                        const heading = document.createElement('p');
+                        heading.classList.add('heading');
+                        heading.textContent = note.title;
+
+                        listItem.appendChild(heading);
+                        box.appendChild(listItem);
+
+                        // Add click event listener to save note key on click
+                        listItem.addEventListener('click', function() {
+                            localStorage.setItem('selected_note', this.dataset.noteKey);
+                            window.location.href = "display_note.html";
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

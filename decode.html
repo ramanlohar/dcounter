@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decode Note</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <button id="back" onclick="goBack()">&leftarrow;</button>
+        <h4>Decode and Save Note</h4>
+    </header>
+    <div>
+        <label for="encodedNote">Paste Encoded Note Here</label>
+        <textarea id="encodedNote" rows="10"></textarea>
+        <button onclick="decodeAndSaveNote()">Save</button>
+    </div>
+    <script src="js/theme.js"></script>
+    <script>
+        function decodeAndSaveNote() {
+            const encodedNote = document.getElementById('encodedNote').value;
+            try {
+                const decodedNote = JSON.parse(atob(encodedNote)); // Decode Base64 to JSON
+                const noteCount = localStorage.getItem('note_count') || 0;
+                const newNoteKey = `note${parseInt(noteCount) + 1}`;
+                localStorage.setItem(newNoteKey, JSON.stringify(decodedNote));
+                localStorage.setItem('note_count', parseInt(noteCount) + 1);
+                alert('Note decoded and saved to local storage');
+            } catch (error) {
+                alert('Invalid encoded note');
+            }
+        }
+
+        function goBack() {
+            window.location.href = "home.html";
+        }
+    </script>
+</body>
+
+</html>

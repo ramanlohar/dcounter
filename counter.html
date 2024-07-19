@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        header div{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #reset_btn{
+            padding: 5px;
+            background-color: rgb(255, 159, 159);
+        }
+    </style>
+</head>
+<body>
+    <header>
+    <div>
+        <button id="back" onclick="back();">&LeftArrow;</button>        
+        <h2>Counter</h2>
+    </div>
+        <button id="reset_btn">Reset</button>
+    </header>
+    <div class="counter">
+        <div class="display" id="dis">0</div>
+        <div class="btns">
+            <button id="count_btn">Count</button>
+        </div>
+    </div>
+    <script src="js/theme.js"></script>
+</body>
+<script>
+    document.getElementById("dis").innerHTML = localStorage.getItem("counter_value") || 0;
+function back(){
+    window.location.href = "home.html"
+}
+
+document.getElementById("count_btn").addEventListener("click",()=>{
+    let counter_value = localStorage.getItem("counter_value") || 0;
+    
+    counter_value++;
+    document.getElementById("dis").innerHTML = counter_value;
+    localStorage.setItem("counter_value",counter_value);
+
+    
+})
+
+document.getElementById("reset_btn").addEventListener("click",()=>{
+    document.getElementById("dis").innerHTML = 0;
+    localStorage.setItem("counter_value",0);    
+})
+
+</script>
+</html>

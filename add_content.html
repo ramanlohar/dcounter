@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add content</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <button id="back" onclick="goBack()">&leftarrow;</button>
+        <h4>Add New</h4>
+        <div>
+            <button id="save_btn">Save</button>
+        </div>
+    </header>
+    <div>
+        <label for="head">Enter the title</label>
+        <input type="text" id="head">
+        <label for="content">Enter the Content</label>
+        <textarea id="content"></textarea>
+    </div>
+    <script src="js/theme.js"></script>
+    <script>
+        document.getElementById('save_btn').addEventListener('click', saveNote);
+
+        function saveNote() {
+            const title = document.getElementById('head').value;
+            const content = document.getElementById('content').value;
+            
+            if (title && content) {
+                let noteCount = localStorage.getItem('note_count');
+                if (!noteCount) {
+                    noteCount = 1;
+                } else {
+                    noteCount = parseInt(noteCount) + 1;
+                }
+
+                const noteKey = `note${noteCount}`;
+                localStorage.setItem(noteKey, JSON.stringify({ title, content }));
+                localStorage.setItem('note_count', noteCount);
+
+                alert('Note saved!');
+                window.location.href = 'display.html';
+            } else {
+                alert('Please enter both title and content.');
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
