@@ -1,0 +1,23 @@
+/* theme.css */
+
+/* Default (Light) Theme */
+:root {
+    --bg-color: white;
+    --text-color: black;
+    --header-bg-color: rgb(255, 172, 48);
+    --button-bg-color: greenyellow;
+    --button-text-color: black;
+    --border-color: black;
+}
+
+/* Dark Theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: black;
+        --text-color: white;
+        --header-bg-color: rgb(80, 80, 80);
+        --button-bg-color: darkgreen;
+        --button-text-color: white;
+        --border-color: white;
+    }
+}
